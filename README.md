@@ -36,10 +36,10 @@ Official implementation of paper: Conditional Motion In-betweeening.
 
 This repo is tested on following environment:
 
-* Ubuntu 20.04
-* Python >= 3.7
-* PyTorch == 1.10.1
-* Cuda V11.3.109
+* Windows 10
+* Python >= 3.7 # 3.10.11 works for this run
+* PyTorch == 2.3.1
+* Cuda V12.3.52
 
 ## Install
 
@@ -53,7 +53,8 @@ This repo is tested on following environment:
    ```
    With this, you will have unpacked LAFAN dataset under `ubisoft-laforge-animation-dataset` folder.
 
-3. Install appropriate `pytorch` version depending on your device(CPU/GPU), then install packages listed in `requirements.txt`. .
+3. Install appropriate `pytorch` version depending on your device (CPU/GPU),
+   then install packages listed in `requirements.txt`.
 
 ## Trained Weights
 
@@ -61,7 +62,8 @@ You can download trained weights from [here](https://works.do/FCqKVjy).
 
 ## Train from Scratch
 
-Trining script is `trainer.py`.
+Training script is `trainer.py`. For convenience, `train.sh` has the following
+arguments populated by default, so you can make changes there.
 
 ```bash
 python trainer.py \
@@ -118,7 +120,19 @@ doi = {https://doi.org/10.1016/j.patcog.2022.108894},
 url = {https://www.sciencedirect.com/science/article/pii/S0031320322003752},
 author = {Jihoon Kim and Taehyun Byun and Seungyoun Shin and Jungdam Won and Sungjoon Choi},
 keywords = {motion in-betweening, conditional motion generation, generative model, motion data augmentation},
-abstract = {Motion in-betweening (MIB) is a process of generating intermediate skeletal movement between the given start and target poses while preserving the naturalness of the motion, such as periodic footstep motion while walking. Although state-of-the-art MIB methods are capable of producing plausible motions given sparse key-poses, they often lack the controllability to generate motions satisfying the semantic contexts required in practical applications. We focus on the method that can handle pose or semantic conditioned MIB tasks using a unified model. We also present a motion augmentation method to improve the quality of pose-conditioned motion generation via defining a distribution over smooth trajectories. Our proposed method outperforms the existing state-of-the-art MIB method in pose prediction errors while providing additional controllability. Our code and results are available on our project web page: https://jihoonerd.github.io/Conditional-Motion-In-Betweening}
+abstract = {Motion in-betweening (MIB) is a process of generating intermediate
+skeletal movement between the given start and target poses while preserving the
+naturalness of the motion, such as periodic footstep motion while walking.
+Although state-of-the-art MIB methods are capable of producing plausible motions
+given sparse key-poses, they often lack the controllability to generate motions
+satisfying the semantic contexts required in practical applications. We focus on
+the method that can handle pose or semantic conditioned MIB tasks using a
+unified model. We also present a motion augmentation method to improve the
+quality of pose-conditioned motion generation via defining a distribution over
+smooth trajectories. Our proposed method outperforms the existing
+state-of-the-art MIB method in pose prediction errors while providing additional
+controllability. Our code and results are available on our project web page:
+https://jihoonerd.github.io/Conditional-Motion-In-Betweening}
 }
 ```
 
