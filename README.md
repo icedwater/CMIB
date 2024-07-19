@@ -73,20 +73,22 @@ arguments populated by default, so you can make changes there.
 
 ```bash
 python trainer.py \
-    --processed_data_dir="processed_data_80/" \
-    --window=90 \
+    --data_path="LAFAN1/" \
+    --dataset="LAFAN1" \
+    --processed_data_dir="processed_data_lafan/" \
+    --window=70 \
     --batch_size=32 \
     --epochs=5000 \
     --device=0 \
-    --entity=cmib_exp \
-    --exp_name="cmib_80" \
+    --entity=lafan1_trial \      # for w&b dashboards
+    --exp_name="LAFAN1" \
     --save_interval=50 \
     --learning_rate=0.0001 \
     --loss_cond_weight=1.5 \
     --loss_pos_weight=0.05 \
     --loss_rot_weight=2.0 \
     --from_idx=9 \
-    --target_idx=88 \
+    --target_idx=68 \
     --interpolation='slerp'
 
 ```
@@ -97,6 +99,24 @@ You can use `run_cmib.py` for inference. Please refer to help page of `run_cmib.
 
 ```python
 python run_cmib.py --help
+```
+
+For convenience, `infer.sh` has been created as follows and you can tweak it:
+
+```bash
+WEIGHT=1000
+EXP_NAME=lafan_90
+DATA_PATH=../datasets/LAFAN1/output/BVH
+SKELETON_PATH=${DATA_PATH}/jumps1_subject2.bvh
+
+python run_cmib.py \
+    --weight ${WEIGHT} \
+    --exp_name ${EXP_NAME} \
+    --data_path ${DATA_PATH} \
+    --skeleton_path ${SKELETON_PATH} \
+    --save_path tests/ \
+    --plot_image=True
+
 ```
 
 ## Reference
