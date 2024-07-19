@@ -1,60 +1,66 @@
 # Conditional Motion In-Betweening (CMIB)
 
-Official implementation of paper: Conditional Motion In-betweeening.
+This is a fork of the [official CMIB repo][repo] where the implementation
+of the [Conditional Motion In-betweeening][paper] lives.
 
-[Paper](https://www.sciencedirect.com/science/article/pii/S0031320322003752) | [Project Page](https://jihoonerd.github.io/Conditional-Motion-In-Betweening/) | [YouTube](https://youtu.be/XAELcHOREJ8)
-
-<p align="center">
-  <img src="assets/graphical_abstract.jpg" alt="Graphical Abstract"/>
-</p>
-
-<table>
-  <tr>
-    <th>in-betweening</th>
-    <th>pose-conditioned</th>
-  </tr>
-  <tr>
-    <td><img src="assets/ib.gif"/></td>
-    <td><img src="assets/pc.gif"/></td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <th>walk</th>
-    <th>jump</th>
-    <th>dance</th>
-  </tr>
-  <tr>
-    <td><img src="assets/walk.gif"/></td>
-    <td><img src="assets/jump.gif"/></td>
-    <td><img src="assets/dance.gif"/></td>
-  </tr>
-</table>
+[repo]: https://github.com/jihoonerd/Conditional-Motion-In-Betweening/
+[paper]: https://www.sciencedirect.com/science/article/pii/S0031320322003752
 
 ## Environments
 
-This repo is tested on following environment:
+This repo is tested on the following environment:
 
 * Windows 10
-* Python >= 3.7 # 3.10.11 works for this run
+* Python >= 3.7     # 3.10.11 works for this machine
 * PyTorch == 2.3.1
 * Cuda V12.3.52
 
-## Install
+## Prerequisites
 
-1. Follow [`LAFAN1`](https://github.com/ubisoft/ubisoft-laforge-animation-dataset) dataset's installation guide.
-   *You need to install git lfs first before cloning the dataset repo.*
+- [Git LFS][glfs] for the LAFAN1 dataset
 
-2. Run LAFAN1's `evaluate.py` to unzip and validate it. (Install `numpy` first if you don't have it)
-   ```bash
-   $ pip install numpy
-   $ python ubisoft-laforge-animation-dataset/evaluate.py 
-   ```
-   With this, you will have unpacked LAFAN dataset under `ubisoft-laforge-animation-dataset` folder.
+- [LAFAN1 dataset][lafan] if you wish to retrain the model yourself
+  ```bash
+  $ git clone https://github.com/ubisoft/ubisoft-laforge-animation-dataset LAFAN1
+  $ cd LAFAN1
+  $ python evaluate.py  # just to verify that the data you got is correct
+  ```
+- Check that the CUDA version on your hardware is the same as above.
+  ```bash
+  $ nvcc --version  # this lets you check the CUDA version installed
+  $ nvidia-smi      # verify that your card supports at least that version
+  ```
+- This would be a good point to create and activate a virtual environment using
+  the built-in `venv` or some other tool like Anaconda, so that the packages we
+  install here are used only for this project. Here's how to do it with `venv`:
+  ```bash
+  $ python -m venv cmib             # or pick some other name
+  $ source cmib/Scripts/activate    # activate the virtual environment
+  (cmib) $                          # this prompt means you're in the virtual environment
+  ```
+  Once you're done with the virtual environment, you can `deactivate` it.
 
-3. Install appropriate `pytorch` version depending on your device (CPU/GPU),
-   then install packages listed in `requirements.txt`.
+- Install the version of pytorch [closest to your CUDA version][cuda]. This can
+  be lower than the one you have, but not higher. For 2.3.1 with CUDA 12.1:
+  ```bash
+  $ pip install torch torchvision torchaudio --index-url https://download.pytorch/org/whl/cu121
+  ```
+
+- Install the required packages. By default, this also contains pytorch; to change
+  the version, you can loosen the requirements by changing the `torch==2.31+cu121`
+  to just `torch`, and doing the same for the `torchaudio` and `torchvision` modules.
+
+  If you've already installed PyTorch, torchaudio, and torchvision above, you can
+  remove the `torch==<version>` lines completely to skip downloading these.
+
+  Once you've made the necessary changes to the requirements file, install from it:
+  ```bash
+  $ pip install -r requirements.txt
+  ```
+
+[glfs]: https://git-lfs.com
+[lafan]: https://github.com/ubisoft/ubisoft-laforge-animation-dataset
+[cuda]: https://pytorch.org/get-started/locally/
 
 ## Trained Weights
 
@@ -67,21 +73,21 @@ arguments populated by default, so you can make changes there.
 
 ```bash
 python trainer.py \
-	--processed_data_dir="processed_data_80/" \
-	--window=90 \
-	--batch_size=32 \
-	--epochs=5000 \
-	--device=0 \
-	--entity=cmib_exp \
-	--exp_name="cmib_80" \
-	--save_interval=50 \
-	--learning_rate=0.0001 \
-	--loss_cond_weight=1.5 \
-	--loss_pos_weight=0.05 \
-	--loss_rot_weight=2.0 \
-	--from_idx=9 \
-	--target_idx=88 \
-	--interpolation='slerp'
+    --processed_data_dir="processed_data_80/" \
+    --window=90 \
+    --batch_size=32 \
+    --epochs=5000 \
+    --device=0 \
+    --entity=cmib_exp \
+    --exp_name="cmib_80" \
+    --save_interval=50 \
+    --learning_rate=0.0001 \
+    --loss_cond_weight=1.5 \
+    --loss_pos_weight=0.05 \
+    --loss_rot_weight=2.0 \
+    --from_idx=9 \
+    --target_idx=88 \
+    --interpolation='slerp'
 
 ```
 
@@ -101,7 +107,7 @@ python run_cmib.py --help
   author    = {Félix G. Harvey and Mike Yurick and Derek Nowrouzezahrai and Christopher Pal},
   title     = {Robust Motion In-Betweening},
   booktitle = {ACM Transactions on Graphics (Proceedings of ACM SIGGRAPH)},
-  publisher = {ACM}, 
+  publisher = {ACM},
   volume    = {39},
   number    = {4},
   year      = {2020}
